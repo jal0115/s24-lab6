@@ -1,22 +1,10 @@
-name: Java CI
+- name: Compile
+  run: |
+    javac -cp ".:Java/lib/SortedIntLists.jar" $(find Java/src/main -name "*.java")
 
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Compile main code only
-      run: |
-        javac $(find Java/src/main -name "*.java")
+- name: Run Tests (optional)
+  run: |
+    java -cp ".:Java/lib/SortedIntLists.jar:Java/src/main:Java/src/test" \
+    org.junit.runner.JUnitCore \
+    edu.cmu.cs.cs214.rec04.InheritanceSortedIntListTest \
+    edu.cmu.cs.cs214.rec04.DelegationSortedIntListTest
